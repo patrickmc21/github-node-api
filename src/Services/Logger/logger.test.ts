@@ -1,7 +1,7 @@
-import logger from './index';
 import mockWinston, { mockWinstonLogger } from '../../Mocks/winston.mock';
-
 jest.mock('winston', () => mockWinston);
+
+import logger from './index';
 
 describe("Logger || Unit Tests", () => {
   describe('#info()', () => {
@@ -24,7 +24,7 @@ describe("Logger || Unit Tests", () => {
     it("Calls loggingUtility.error with correct args", () => {
       const message = "This is a log!";
       const metadata = { error: { message: 'This is an error message!'}};
-      logger.error(message);
+      logger.error(message, metadata);
       expect(mockWinstonLogger.error).toHaveBeenCalledWith(message, metadata);
     });
   });

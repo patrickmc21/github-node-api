@@ -8,7 +8,7 @@ export const mockWinstonLogger = {
 }
 
 export default {
-  createLogger: mockWinstonLogger,
+  createLogger: () => mockWinstonLogger,
   transports: {
     Console: MockConsole
   },
