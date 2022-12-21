@@ -2,6 +2,7 @@
   "extends": "./tsconfig.base",
   "exclude": [
     "node_modules",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "test-import.ts"
   ]
 }
