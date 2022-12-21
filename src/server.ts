@@ -11,4 +11,4 @@ server.set('port', process.env.PORT || 9001);
 
 server.listen(server.get('port'), () => {
   console.log(`Server is listening on port: ${server.get('port')}`);
-})
+});
