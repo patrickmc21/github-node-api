@@ -1,9 +1,8 @@
-import { GitHubPullRequest } from '../../../Types/GitHubApi.type';
 import gitHubAssembler from '../github.assembler';
-import GithubDal from '../github.dal';
+import GitHubDal from '../github.dal';
 
 describe('GitHub Dal | Integration tests', () => {
-  let dal: GithubDal;
+  let dal: GitHubDal;
 
   beforeEach(() => {
     dal = gitHubAssembler.getDal();

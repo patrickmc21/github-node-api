@@ -16,8 +16,10 @@ import { GitHubPullRequest, GitHubRepo, GitHubUser } from '../../Types/GitHubApi
  *
  * @see https://docs.github.com/en/rest/quickstart?apiVersion=2022-11-28&tool=curl
  */
-export default class GithubDal extends HttpDal {
+export default class GitHubDal extends HttpDal {
   /**
+   * @memberof GitHubDal
+   * @static
    * @property GITHUB_TOKEN
    * @description Classic GitHub token required to access GitHub API
    * @see https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic
@@ -25,24 +27,28 @@ export default class GithubDal extends HttpDal {
   private static GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
   /**
+   * @memberof GitHubDal
+   * @static
    * @property BASE_GITHUB_HEADERS
    * @description Headers required on all requests to GitHub REST API
    */
   private static BASE_GITHUB_HEADERS = {
     Accept: 'application/vnd.github+json',
-    Authorization: `Bearer ${GithubDal.GITHUB_TOKEN}`,
+    Authorization: `Bearer ${GitHubDal.GITHUB_TOKEN}`,
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
   /**
-   * @param baseUrl base GitHub REST API url
+   * @memberof GitHubDal
+   * @method constructor
+   * @param baseUrl Base GitHub REST API url
    */
   constructor(baseUrl: string) {
     super(baseUrl);
   }
 
   /**
-   * @memberof GithubDal
+   * @memberof GitHubDal
    * @method getUser
    * @description Retrieves a user object by given username
    * @param {string} username
@@ -52,7 +58,7 @@ export default class GithubDal extends HttpDal {
   public async getUser(username: string): Promise<GitHubUser> {
     const url = `/users/${username}`;
     const headers = {
-      ...GithubDal.BASE_GITHUB_HEADERS,
+      ...GitHubDal.BASE_GITHUB_HEADERS,
     };
 
     const response = await this.get(url, headers);
@@ -73,7 +79,7 @@ export default class GithubDal extends HttpDal {
   }
 
   /**
-   * @memberof GithubDal
+   * @memberof GitHubDal
    * @method getRepo
    * @description Retrieves a repo object by owner and repo names
    * @param {string} owner Owner of the repository
@@ -84,7 +90,7 @@ export default class GithubDal extends HttpDal {
   public async getRepo(owner: string, repo: string): Promise<GitHubRepo> {
     const url = `/repos/${owner}/${repo}`;
     const headers = {
-      ...GithubDal.BASE_GITHUB_HEADERS,
+      ...GitHubDal.BASE_GITHUB_HEADERS,
     };
 
     const response = await this.get(url, headers);
@@ -111,7 +117,7 @@ export default class GithubDal extends HttpDal {
   }
 
   /**
-   * @memberof GithubDal
+   * @memberof GitHubDal
    * @method getPullRequestByRepo
    * @description Retrieves all pull requests associated with the supplied owner and repo names
    * @param {string} owner Owner of the repository
@@ -122,7 +128,7 @@ export default class GithubDal extends HttpDal {
   public async getPullRequestsByRepo(owner: string, repo: string): Promise<GitHubPullRequest[]> {
     const url = `/repos/${owner}/${repo}/pulls`;
     const headers = {
-      ...GithubDal.BASE_GITHUB_HEADERS,
+      ...GitHubDal.BASE_GITHUB_HEADERS,
     };
 
     const response = await this.get(url, headers);

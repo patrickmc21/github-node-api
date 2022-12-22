@@ -1,8 +1,8 @@
 import Factory from '../../AbstractClasses/factory';
-import GithubDal from './github.dal';
+import GitHubDal from './github.dal';
 
 class GitHubFactory extends Factory {
-  constructor(dal: GithubDal) {
+  constructor(dal: GitHubDal) {
     super(dal);
   }
 }

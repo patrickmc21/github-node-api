@@ -1,11 +1,11 @@
 import Assembler from '../../AbstractClasses/assembler';
 import GitHubController from './github.controller';
-import GithubDal from './github.dal';
+import GitHubDal from './github.dal';
 import GitHubFactory from './github.factory';
 
 class GitHubAssembler extends Assembler {
   private controller: GitHubController;
-  private dal: GithubDal;
+  private dal: GitHubDal;
   private factory: GitHubFactory;
 
   public getController(): GitHubController {
@@ -25,11 +25,11 @@ class GitHubAssembler extends Assembler {
     return factory;
   }
 
-  public getDal(): GithubDal {
+  public getDal(): GitHubDal {
     if (this.dal) return this.dal;
 
     const baseUrl = process.env.GITHUB_BASE_URL;
-    const dal = new GithubDal(baseUrl);
+    const dal = new GitHubDal(baseUrl);
     this.dal = dal;
     return dal;
   }
