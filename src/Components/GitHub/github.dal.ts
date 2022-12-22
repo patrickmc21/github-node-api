@@ -17,7 +17,6 @@ export default class GithubDal extends HttpDal {
 
     const response = await this.get(url, headers);
     if (response.ok) {
-      console.log(response);
       const data = await response.json();
       return data;
     } else {

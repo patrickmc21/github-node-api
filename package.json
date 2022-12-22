@@ -13,6 +13,8 @@
     "lint": "mkdir -p build && tslint -c tslint.json -o build/tslint-out.json -t json 'src/**/*.ts'",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "jest",
+    "test:unit": "jest --testPathPattern=unit.test.ts",
+    "test:integration": "jest --testPathPattern=integration.test.ts",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "build:dev": "webpack --mode=development",
