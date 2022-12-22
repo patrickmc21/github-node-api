@@ -9,8 +9,8 @@ export default abstract class HttpDal {
     this.fetch = fetch;
   }
 
-  protected get(url: string, headers?: any): Promise<any> {
-    return this.fetch(`${this.baseUrl}${url}`, {
+  protected get(url: string, headers?: any, useBaseUrl: boolean = true): Promise<any> {
+    return this.fetch(`${useBaseUrl ? this.baseUrl : ''}${url}`, {
       method: 'get',
       ...(headers && { headers }),
     });

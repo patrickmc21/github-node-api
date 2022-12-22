@@ -7,7 +7,7 @@ export default class GithubDal extends HttpDal {
     super(baseUrl);
   }
 
-  public async getPullReqestsByRepo(owner: string, repo: string): Promise<GitHubPullRequest[] | null> {
+  public async getPullRequestsByRepo(owner: string, repo: string): Promise<GitHubPullRequest[]> {
     const url = `/repos/${owner}/${repo}/pulls`;
     const headers = {
       Accept: 'application/vnd.github+json',
@@ -16,8 +16,23 @@ export default class GithubDal extends HttpDal {
     };
 
     const response = await this.get(url, headers);
-    // some error handling?
-    const data = await response.json();
-    return data.length > 0 ? data : null;
+    if (response.ok) {
+      console.log(response);
+      const data = await response.json();
+      return data;
+    } else {
+      let message = 'GitHub API Error:';
+      switch (response.statusCode) {
+        case 302:
+          message += ' Not Modified';
+          break;
+        case 422:
+          message += ' Validation failed, or the endpoint has been spammed.';
+          break;
+        default:
+          message += ' An unexpected error has occured. Please try your request at a later time';
+      }
+      throw new Error(message);
+    }
   }
 }
