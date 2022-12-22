@@ -40,7 +40,7 @@ class Logger {
    * @memberof Logger
    * @method info
    * @description Logs a message to the console with severity "info"
-   * @param message {String} message to log
+   * @param {string} message message to log
    */
   public info(message: string): void {
     this.loggingUtility.info(message);
@@ -50,7 +50,7 @@ class Logger {
    * @memberof Logger
    * @method warn
    * @description Logs a message to the console with severity "warn"
-   * @param message {String} message to log
+   * @param {string} message message to log
    */
   public warn(message: string): void {
     this.loggingUtility.warn(message);
@@ -60,8 +60,8 @@ class Logger {
    * @memberof Logger
    * @method error
    * @description Logs a message to the console with severity "error"
-   * @param message {String} message to log
-   * @param [meta] {any} Additional metadata to attach to the log
+   * @param {string} message message to log
+   * @param {any} [meta] Additional metadata to attach to the log
    */
   public error(message: string, meta?: unknown): void {
     this.loggingUtility.error(message, meta);

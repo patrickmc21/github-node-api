@@ -28,7 +28,7 @@ class GitHubAssembler extends Assembler {
   public getDal(): GithubDal {
     if (this.dal) return this.dal;
 
-    const baseUrl = 'https://api.github.com';
+    const baseUrl = process.env.GITHUB_BASE_URL;
     const dal = new GithubDal(baseUrl);
     this.dal = dal;
     return dal;
