@@ -153,3 +153,6 @@ knexfile.js
 
 # Configuration directories
 .idea/
+
+# Documentation
+/docs
