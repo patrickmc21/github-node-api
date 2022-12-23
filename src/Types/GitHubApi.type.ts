@@ -1,6 +1,6 @@
 export type GitHubPullRequest = {
   url: string;
-  id: 1;
+  id: number;
   node_id: string;
   html_url: string;
   diff_url: string;
@@ -17,7 +17,7 @@ export type GitHubPullRequest = {
   title: string;
   user: GitHubUser;
   body: string;
-  labels: GitHubLabels[];
+  labels: GitHubLabel[];
   milestone: GitHubMilestone;
   active_lock_reason: string;
   created_at: string;
@@ -29,7 +29,7 @@ export type GitHubPullRequest = {
   assignees: GitHubUser[];
   requested_teams: GitHubTeam[];
   head: GitHubCommit;
-  base: GitHubUser;
+  base: GitHubCommit;
   author_association: string;
   auto_merge: null;
   draft: boolean;
@@ -56,7 +56,7 @@ export type GitHubUser = {
   site_admin: boolean;
 };
 
-export type GitHubLabels = {
+export type GitHubLabel = {
   id: number;
   node_id: string;
   url: string;
@@ -173,7 +173,7 @@ export type GitHubRepo = {
   has_issues: boolean;
   has_projects: boolean;
   has_wiki: boolean;
-  has_pages: false;
+  has_pages: boolean;
   has_downloads: boolean;
   archived: boolean;
   disabled: boolean;
@@ -194,7 +194,7 @@ export type GitHubRepo = {
   delete_branch_on_merge: boolean;
   allow_merge_commit: boolean;
   subscribers_count: number;
-  network_count: 0;
+  network_count: number;
   license: {
     key: string;
     name: string;

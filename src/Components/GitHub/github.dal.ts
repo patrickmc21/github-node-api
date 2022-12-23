@@ -20,8 +20,7 @@ export default class GitHubDal extends HttpDal {
   /**
    * @memberof GitHubDal
    * @static
-   * @property GITHUB_TOKEN
-   * @description Classic GitHub token required to access GitHub API
+   * @property {string} GITHUB_TOKEN Classic GitHub token required to access GitHub API
    * @see https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic
    */
   private static GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -29,8 +28,7 @@ export default class GitHubDal extends HttpDal {
   /**
    * @memberof GitHubDal
    * @static
-   * @property BASE_GITHUB_HEADERS
-   * @description Headers required on all requests to GitHub REST API
+   * @property {string} BASE_GITHUB_HEADERS Headers required on all requests to GitHub REST API
    */
   private static BASE_GITHUB_HEADERS = {
     Accept: 'application/vnd.github+json',
@@ -38,11 +36,6 @@ export default class GitHubDal extends HttpDal {
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
-  /**
-   * @memberof GitHubDal
-   * @method constructor
-   * @param baseUrl Base GitHub REST API url
-   */
   constructor(baseUrl: string) {
     super(baseUrl);
   }
