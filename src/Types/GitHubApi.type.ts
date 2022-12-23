@@ -1,3 +1,8 @@
+/**
+ * GitHubPullRequest
+ * @type GitHubPullRequest
+ * @alias GitHubPullRequest
+ */
 export type GitHubPullRequest = {
   url: string;
   id: number;
@@ -35,6 +40,11 @@ export type GitHubPullRequest = {
   draft: boolean;
 };
 
+/**
+ * GitHubUser
+ * @type GitHubUser
+ * @alias GitHubUser
+ */
 export type GitHubUser = {
   login: string;
   id: number;
@@ -56,6 +66,11 @@ export type GitHubUser = {
   site_admin: boolean;
 };
 
+/**
+ * GitHubLabel
+ * @type GitHubLabel
+ * @alias GitHubLabel
+ */
 export type GitHubLabel = {
   id: number;
   node_id: string;
@@ -66,6 +81,11 @@ export type GitHubLabel = {
   default: boolean;
 };
 
+/**
+ * GitHubMilestone
+ * @type GitHubMilestone
+ * @alias GitHubMilestone
+ */
 export type GitHubMilestone = {
   url: string;
   html_url: string;
@@ -85,6 +105,11 @@ export type GitHubMilestone = {
   due_on: string;
 };
 
+/**
+ * GitHubTeam
+ * @type GitHubTeam
+ * @alias GitHubTeam
+ */
 export type GitHubTeam = {
   id: number;
   node_id: string;
@@ -100,6 +125,11 @@ export type GitHubTeam = {
   parent: null;
 };
 
+/**
+ * GitHubCommit
+ * @type GitHubCommit
+ * @alias GitHubCommit
+ */
 export type GitHubCommit = {
   label: string;
   ref: string;
@@ -108,6 +138,11 @@ export type GitHubCommit = {
   repo: GitHubRepo;
 };
 
+/**
+ * GitHubRepo
+ * @type GitHubRepo
+ * @alias GitHubRepo
+ */
 export type GitHubRepo = {
   id: number;
   node_id: string;
