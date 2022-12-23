@@ -36,6 +36,38 @@ export default class GitHubDal extends HttpDal {
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
+  /**
+   * @memberof GitHubDal
+   * @static
+   * @method gitHubApiErrorHandler
+   * @description Generic handler for non-successful HTTP response codes
+   * @param {number} responseStatus HTTP status code returned from GitHub REST API
+   * @throws {Error} Error with relevant failure information
+   */
+  private static gitHubApiErrorHandler(responseStatus: number): void {
+    let message = 'GitHub API Error:';
+    switch (responseStatus) {
+      case 301:
+        message += ' Moved permanently';
+        break;
+      case 302:
+        message += ' Not Modified';
+        break;
+      case 403:
+        message += ' Forbidden';
+        break;
+      case 404:
+        message += ' Resource not found';
+        break;
+      case 422:
+        message += ' Validation failed, or the endpoint has been spammed.';
+        break;
+      default:
+        message += ' An unexpected error has occured. Please try your request at a later time';
+    }
+    throw new Error(message);
+  }
+
   constructor(baseUrl: string) {
     super(baseUrl);
   }
@@ -59,15 +91,7 @@ export default class GitHubDal extends HttpDal {
       const data = await response.json();
       return data;
     } else {
-      let message = 'GitHub API Error:';
-      switch (response.status) {
-        case 404:
-          message += ' Resource not found';
-          break;
-        default:
-          message += ' An unexpected error has occured. Please try your request at a later time';
-      }
-      throw new Error(message);
+      GitHubDal.gitHubApiErrorHandler(response.status);
     }
   }
 
@@ -91,21 +115,7 @@ export default class GitHubDal extends HttpDal {
       const data = await response.json();
       return data;
     } else {
-      let message = 'GitHub API Error:';
-      switch (response.status) {
-        case 301:
-          message += ' Moved permanently';
-          break;
-        case 403:
-          message += ' Forbidden';
-          break;
-        case 404:
-          message += ' Resource not found';
-          break;
-        default:
-          message += ' An unexpected error has occured. Please try your request at a later time';
-      }
-      throw new Error(message);
+      GitHubDal.gitHubApiErrorHandler(response.status);
     }
   }
 
@@ -129,18 +139,7 @@ export default class GitHubDal extends HttpDal {
       const data = await response.json();
       return data;
     } else {
-      let message = 'GitHub API Error:';
-      switch (response.status) {
-        case 302:
-          message += ' Not Modified';
-          break;
-        case 422:
-          message += ' Validation failed, or the endpoint has been spammed.';
-          break;
-        default:
-          message += ' An unexpected error has occured. Please try your request at a later time';
-      }
-      throw new Error(message);
+      GitHubDal.gitHubApiErrorHandler(response.status);
     }
   }
 }
