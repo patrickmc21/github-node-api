@@ -3,7 +3,7 @@
  * @type GitHubPullRequest
  * @alias GitHubPullRequest
  */
-export type GitHubCommitFormatted = {
+export type GitHubPullRequestFormatted = {
   id: number;
   number: number;
   title: string;
