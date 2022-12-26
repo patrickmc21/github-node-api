@@ -1,7 +1,7 @@
 import HttpDal from './httpDal';
 
 export default abstract class Factory {
-  private dal: HttpDal;
+  protected dal: HttpDal;
 
   constructor(dal: HttpDal) {
     this.dal = dal;

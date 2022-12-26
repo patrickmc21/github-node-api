@@ -84,7 +84,7 @@ describe('GitHubFactory | Unit Tests', () => {
 
     it('Returns the array of PRs by provided owner and repo name', async () => {
       const result = await factory.getOpenPullRequestsByRepo(owner, repo);
-      expect(result).toEqual(mockFormattedPullRequest);
+      expect(result).toEqual([mockFormattedPullRequest]);
     });
   });
 });
