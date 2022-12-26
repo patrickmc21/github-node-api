@@ -74,6 +74,7 @@ export default class GitHubDal extends HttpDal {
 
   /**
    * @memberof GitHubDal
+   * @async
    * @method getUser
    * @description Retrieves a user object by given username
    * @param {string} username
@@ -97,6 +98,7 @@ export default class GitHubDal extends HttpDal {
 
   /**
    * @memberof GitHubDal
+   * @async
    * @method getRepo
    * @description Retrieves a repo object by owner and repo names
    * @param {string} owner Owner of the repository
@@ -121,6 +123,7 @@ export default class GitHubDal extends HttpDal {
 
   /**
    * @memberof GitHubDal
+   * @async
    * @method getPullRequestByRepo
    * @description Retrieves all pull requests associated with the supplied owner and repo names
    * @param {string} owner Owner of the repository
