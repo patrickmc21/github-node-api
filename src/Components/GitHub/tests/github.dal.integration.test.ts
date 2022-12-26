@@ -1,11 +1,11 @@
-import gitHubAssembler from '../github.assembler';
 import GitHubDal from '../github.dal';
 
 describe('GitHub Dal | Integration tests', () => {
   let dal: GitHubDal;
+  const rootUrl = process.env.GITHUB_BASE_URL;
 
   beforeEach(() => {
-    dal = gitHubAssembler.getDal();
+    dal = new GitHubDal(rootUrl);
   });
 
   describe('#getUser()', () => {
@@ -76,9 +76,7 @@ describe('GitHub Dal | Integration tests', () => {
         await dal.getPullRequestsByRepo(owner, repo);
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
-        expect(error.message).toEqual(
-          'GitHub API Error: An unexpected error has occured. Please try your request at a later time'
-        );
+        expect(error.message).toEqual('GitHub API Error: Resource not found');
       }
     });
   });

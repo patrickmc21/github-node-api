@@ -4,6 +4,6 @@ import HttpDal from './httpDal';
 
 export default abstract class Assembler {
   public abstract getController(): Controller;
-  public abstract getFactory(): Factory;
-  public abstract getDal(): HttpDal;
+  protected abstract getFactory(): Factory;
+  protected abstract getDal(): HttpDal;
 }

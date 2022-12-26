@@ -4,7 +4,6 @@ import 'fetch-mock-jest';
 jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
 const fetchMock = fetch as unknown as FetchMockStatic;
 
-import gitHubAssembler from '../github.assembler';
 import GitHubDal from '../github.dal';
 import mockUser from './mocks/user.mock';
 import mockRepo from './mocks/repo.mock';
@@ -15,7 +14,7 @@ describe('GitHub Dal | Unit tests', () => {
   const rootUrl = process.env.GITHUB_BASE_URL;
 
   beforeEach(() => {
-    dal = gitHubAssembler.getDal();
+    dal = new GitHubDal(rootUrl);
     fetchMock.reset();
   });
 

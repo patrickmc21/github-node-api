@@ -16,7 +16,7 @@ class GitHubAssembler extends Assembler {
     this.controller = controller;
     return controller;
   }
-  public getFactory(): GitHubFactory {
+  protected getFactory(): GitHubFactory {
     if (this.factory) return this.factory;
 
     const dal = this.getDal();
@@ -25,7 +25,7 @@ class GitHubAssembler extends Assembler {
     return factory;
   }
 
-  public getDal(): GitHubDal {
+  protected getDal(): GitHubDal {
     if (this.dal) return this.dal;
 
     const baseUrl = process.env.GITHUB_BASE_URL;
