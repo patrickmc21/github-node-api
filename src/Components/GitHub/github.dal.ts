@@ -142,4 +142,28 @@ export default class GitHubDal extends HttpDal {
       GitHubDal.gitHubApiErrorHandler(response.status);
     }
   }
+
+  /**
+   * @memberof GitHubDal
+   * @method getReferencedItemUrl
+   * @description The GitHub REST API will return a GET url for related items. This method can be used to retrieve those items
+   * @example
+   * const pullRequest = await gitHubDal.getPullRequestsByRepo(owner, repo);
+   * const commits = await gitHubDal.getReferencedItemUrl(pullRequest.commits_url);
+   * @param {String} url url from reference item
+   * @returns {any} the referenced item(s)
+   */
+  public async getReferencedItemUrl<T>(url: string): Promise<T> {
+    const headers = {
+      ...GitHubDal.BASE_GITHUB_HEADERS,
+    };
+
+    const response = await this.get(url, headers, false);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      GitHubDal.gitHubApiErrorHandler(response.status);
+    }
+  }
 }

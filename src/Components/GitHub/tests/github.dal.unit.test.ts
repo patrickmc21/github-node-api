@@ -1,4 +1,4 @@
-import type { FetchMockStatic, MockResponseObject } from 'fetch-mock';
+import type { FetchMockStatic } from 'fetch-mock';
 import fetch from 'node-fetch';
 import 'fetch-mock-jest';
 jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
@@ -8,6 +8,7 @@ import GitHubDal from '../github.dal';
 import mockUser from './mocks/user.mock';
 import mockRepo from './mocks/repo.mock';
 import mockPullRequest from './mocks/pullRequest.mock';
+import mockCommit from './mocks/commit.mock';
 
 describe('GitHub Dal | Unit tests', () => {
   let dal: GitHubDal;
@@ -180,6 +181,49 @@ describe('GitHub Dal | Unit tests', () => {
       fetchMock.get(`${rootUrl}/repos/${owner}/${repo}/pulls`, 500);
       try {
         await dal.getPullRequestsByRepo(owner, repo);
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error.message).toEqual(
+          'GitHub API Error: An unexpected error has occured. Please try your request at a later time'
+        );
+      }
+    });
+  });
+
+  describe('#getReferencedItemUrl()', () => {
+    let url: string;
+
+    beforeEach(() => {
+      url = '/reference-url-item';
+      fetchMock.get(url, { ...mockCommit });
+    });
+
+    it('Calls fetch with the correct args', async () => {
+      await dal.getReferencedItemUrl(url);
+      expect(fetchMock).toHaveFetched(url);
+    });
+
+    it('Returns the requested item', async () => {
+      const result = await dal.getReferencedItemUrl(url);
+      expect(result).toEqual(mockCommit);
+    });
+
+    it('Returns an error if Api responds with a 404', async () => {
+      url = 'fake-url';
+      fetchMock.get(url, 404);
+      try {
+        await dal.getReferencedItemUrl(url);
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error.message).toEqual('GitHub API Error: Resource not found');
+      }
+    });
+
+    it('Returns a default error', async () => {
+      url = 'fake-url';
+      fetchMock.get(url, 500);
+      try {
+        await dal.getReferencedItemUrl(url);
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
         expect(error.message).toEqual(

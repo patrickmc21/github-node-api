@@ -80,4 +80,20 @@ describe('GitHub Dal | Integration tests', () => {
       }
     });
   });
+
+  describe('#getReferencedItemUrl()', () => {
+    const owner = 'patrickmc21';
+    const repo = 'github-node-api';
+    let url: string;
+
+    beforeEach(async () => {
+      const prs = await dal.getPullRequestsByRepo(owner, repo);
+      url = prs[0].commits_url;
+    });
+
+    it('Returns the requested item', async () => {
+      const result = await dal.getReferencedItemUrl(url);
+      expect(result).toBeInstanceOf(Array);
+    });
+  });
 });
