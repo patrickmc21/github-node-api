@@ -27,19 +27,19 @@ describe('GitHubController | Unit Tests', () => {
     });
 
     it('Calls factory.getUser() with correct args', async () => {
-      await factory.getUser(user);
+      await controller.validateUser(user);
       verify(factory.getUser(user)).once();
     });
 
     it('Returns true if the provided user exists in GitHub', async () => {
-      const result = await factory.getUser(user);
+      const result = await controller.validateUser(user);
       expect(result).toEqual(true);
     });
 
     it('Throws an error if the provided user does not exist in GitHub', async () => {
       when(factory.getUser('fake-owner')).thenThrow(new Error('GitHub API Error: Resource not found'));
       try {
-        await factory.getUser('fake-user');
+        await controller.validateUser('fake-user');
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundApiError);
@@ -57,19 +57,19 @@ describe('GitHubController | Unit Tests', () => {
     });
 
     it('Calls factory.getRepo() with correct args', async () => {
-      await factory.getRepo(owner, repo);
+      await controller.validateRepo(owner, repo);
       verify(factory.getRepo(owner, repo)).once();
     });
 
     it('Returns true if the provided repo exists in GitHub', async () => {
-      const result = await factory.getRepo(owner, repo);
+      const result = await controller.validateRepo(owner, repo);
       expect(result).toEqual(true);
     });
 
     it('Throws an error if the provided repo does not exist in GitHub', async () => {
       when(factory.getRepo(owner, 'fake-repo')).thenThrow(new Error('GitHub API Error: Resource not found'));
       try {
-        await factory.getRepo(owner, 'fake-repo');
+        await controller.validateRepo(owner, 'fake-repo');
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundApiError);
