@@ -15,20 +15,4 @@ export default abstract class HttpDal {
       ...(headers && { headers }),
     });
   }
-
-  protected post(url: string, body: any, headers?: any): Promise<any> {
-    return this.fetch(`${this.baseUrl}${url}`, {
-      method: 'post',
-      body,
-      ...(headers && { headers }),
-    });
-  }
-
-  protected put(url: string, body: any, headers?: any): Promise<any> {
-    return this.fetch(`${this.baseUrl}${url}`, {
-      method: 'put',
-      body,
-      ...(headers && { headers }),
-    });
-  }
 }
