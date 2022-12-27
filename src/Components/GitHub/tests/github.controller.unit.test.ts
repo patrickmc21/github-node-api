@@ -76,13 +76,25 @@ describe('GitHubController | Unit Tests', () => {
       expect(result).toEqual(true);
     });
 
-    it('Throws an error if the provided repo does not exist in GitHub', async () => {
-      when(factory.getRepo(owner, 'fake-repo')).thenThrow(new Error('GitHub API Error: Resource not found'));
+    it('Throws a NotFoundApiError if the provided repo does not exist in GitHub', async () => {
+      when(factory.getRepo(owner, 'fake-repo')).thenThrow(
+        new BaseApiError('GitHub API Error: Resource not found', 404)
+      );
       try {
         await controller.validateRepo(owner, 'fake-repo');
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundApiError);
+      }
+    });
+
+    it('Throws n error if the an exception occurs', async () => {
+      when(factory.getRepo(owner, 'fake-repo')).thenThrow(new Error('GitHub API Error: Resource not found'));
+      try {
+        await controller.validateRepo(owner, 'fake-repo');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
       }
     });
   });
