@@ -1,10 +1,12 @@
 import * as express from 'express';
 import { logger } from '../Services';
 import swaggerRoutes from './swagger.routes';
+import gitHubRoutes from './github.routes';
 
 const routes = express.Router();
 
 routes.use('/', swaggerRoutes);
+routes.use('/github', gitHubRoutes);
 
 /**
  * @openapi

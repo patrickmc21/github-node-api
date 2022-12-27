@@ -1,7 +1,7 @@
 import Factory from './factory';
 
 export default abstract class Controller {
-  private factory: Factory;
+  protected factory: Factory;
 
   constructor(factory: Factory) {
     this.factory = factory;

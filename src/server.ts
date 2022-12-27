@@ -3,11 +3,12 @@ import * as bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import * as loggerMiddleware from 'morgan';
 
+dotenv.config();
+
 import routes from './Routes';
 import { logger } from './Services';
 
 const server = express();
-dotenv.config();
 
 server.use(loggerMiddleware('dev'));
 server.use(bodyParser.json({ strict: false }));
