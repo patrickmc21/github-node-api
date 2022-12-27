@@ -1,4 +1,5 @@
 import HttpDal from '../../AbstractClasses/httpDal';
+import { BaseApiError } from '../../Types/ApiErrorTypes';
 import { GitHubPullRequest, GitHubRepo, GitHubUser } from '../../Types/GitHubApi.type';
 
 /**
@@ -42,7 +43,7 @@ export default class GitHubDal extends HttpDal {
    * @method gitHubApiErrorHandler
    * @description Generic handler for non-successful HTTP response codes
    * @param {number} responseStatus HTTP status code returned from GitHub REST API
-   * @throws {Error} Error with relevant failure information
+   * @throws {BaseApiError} Error with relevant failure information
    */
   private static gitHubApiErrorHandler(responseStatus: number): void {
     let message = 'GitHub API Error:';
@@ -65,7 +66,7 @@ export default class GitHubDal extends HttpDal {
       default:
         message += ' An unexpected error has occured. Please try your request at a later time';
     }
-    throw new Error(message);
+    throw new BaseApiError(message, responseStatus);
   }
 
   constructor(baseUrl: string) {

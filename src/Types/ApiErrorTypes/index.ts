@@ -1,3 +1,4 @@
+export { default as BaseApiError } from './BaseApiError';
 export { default as NotFoundApiError } from './NotFoundApiError';
 export { default as ForbiddenApiError } from './ForbiddenApiError';
 export { default as UnauthorizedApiError } from './UnauthorizedApiError';
