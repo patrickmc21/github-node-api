@@ -36,13 +36,23 @@ describe('GitHubController | Unit Tests', () => {
       expect(result).toEqual(true);
     });
 
-    it('Throws an error if the provided user does not exist in GitHub', async () => {
-      when(factory.getUser('fake-owner')).thenThrow(new Error('GitHub API Error: Resource not found'));
+    it('Throws a NotFoundApiError if the provided user does not exist in GitHub', async () => {
+      when(factory.getUser('fake-owner')).thenReject(new BaseApiError('GitHub API Error: Resource not found', 404));
       try {
-        await controller.validateUser('fake-user');
+        await controller.validateUser('fake-owner');
         expect('Call resolved successfully').toEqual('Call should error and throw');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundApiError);
+      }
+    });
+
+    it('Throws an error if an exception occurs', async () => {
+      when(factory.getUser('fake-owner')).thenReject(new Error('Exception'));
+      try {
+        await controller.validateUser('fake-owner');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
       }
     });
   });
@@ -77,7 +87,7 @@ describe('GitHubController | Unit Tests', () => {
     });
   });
 
-  describe('#getOpenPullRequestsByRepo()', async () => {
+  describe('#getOpenPullRequestsByRepo()', () => {
     let owner: string;
     let repo: string;
     beforeEach(() => {
