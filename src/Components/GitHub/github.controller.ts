@@ -1,5 +1,6 @@
 import Controller from '../../AbstractClasses/controller';
-import { BaseApiError, NotFoundApiError } from '../../Types/ApiErrorTypes';
+import { BaseApiError, ExternalApiError, InternalApiError, NotFoundApiError } from '../../Types/ApiErrorTypes';
+import { GitHubPullRequestFormatted } from '../../Types/GitHubPullRequest.type';
 import GitHubFactory from './github.factory';
 
 class GitHubController extends Controller {
@@ -33,7 +34,30 @@ class GitHubController extends Controller {
       throw error;
     }
   }
-  public async getOpenPullRequestsByRepo(owner: string, repo: string): Promise<void> {}
+
+  public async getOpenPullRequestsByRepo(owner: string, repo: string): Promise<GitHubPullRequestFormatted[]> {
+    try {
+      await Promise.all([this.validateUser(owner), this.validateRepo(owner, repo)]);
+      return this.factory.getOpenPullRequestsByRepo(owner, repo);
+    } catch (error) {
+      if (error instanceof BaseApiError) {
+        switch (true) {
+          case error instanceof NotFoundApiError:
+          case error instanceof ExternalApiError:
+          case error instanceof InternalApiError:
+            throw error;
+          default:
+            if (error.message.includes('GitHub API Error:')) {
+              throw new ExternalApiError(error.message, error);
+            }
+
+            throw new InternalApiError(error.message, error);
+        }
+      }
+
+      throw new InternalApiError(error.message);
+    }
+  }
 }
 
 export default GitHubController;

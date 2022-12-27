@@ -5,9 +5,7 @@ import GitHubFactory from '../github.factory';
 import { ExternalApiError, InternalApiError, NotFoundApiError } from '../../../Types/ApiErrorTypes';
 import mockUser from './mocks/user.mock';
 import mockRepo from './mocks/repo.mock';
-import mockPullRequest from './mocks/pullRequest.mock';
 import mockFormattedPullRequest from './mocks/formattedPullRequest.mock';
-import mockCommit from './mocks/commit.mock';
 import BaseApiError from '../../../Types/ApiErrorTypes/BaseApiError';
 
 describe('GitHubController | Unit Tests', () => {
@@ -135,7 +133,41 @@ describe('GitHubController | Unit Tests', () => {
       expect(result).toEqual([]);
     });
 
-    it('Converts intances of BaseApiError to ExternalApiErrors', async () => {
+    it('Propogates NotFoundApiErrors', async () => {
+      when(factory.getOpenPullRequestsByRepo(owner, 'some-other-repo')).thenThrow(new NotFoundApiError());
+      try {
+        await controller.getOpenPullRequestsByRepo(owner, 'some-other-repo');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundApiError);
+      }
+    });
+
+    it('Propogates ExternalApiError', async () => {
+      when(factory.getOpenPullRequestsByRepo(owner, 'some-other-repo')).thenThrow(
+        new ExternalApiError('External Error')
+      );
+      try {
+        await controller.getOpenPullRequestsByRepo(owner, 'some-other-repo');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(ExternalApiError);
+      }
+    });
+
+    it('Propogates InternalApiError', async () => {
+      when(factory.getOpenPullRequestsByRepo(owner, 'some-other-repo')).thenThrow(
+        new InternalApiError('Internal Error')
+      );
+      try {
+        await controller.getOpenPullRequestsByRepo(owner, 'some-other-repo');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(InternalApiError);
+      }
+    });
+
+    it('Converts intances of BaseApiError to ExternalApiErrors when message includes "GitHub API Error:', async () => {
       when(factory.getOpenPullRequestsByRepo(owner, 'some-other-repo')).thenThrow(
         new BaseApiError('GitHub API Error: Validation failed, or the endpoint has been spammed.', 422)
       );
@@ -145,9 +177,21 @@ describe('GitHubController | Unit Tests', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(ExternalApiError);
         expect(error.message).toEqual(
-          'Error: Internal Server Error - GitHub API Error: Validation failed, or the endpoint has been spammed.'
+          'Error: Invalid Response from external server - GitHub API Error: Validation failed, or the endpoint has been spammed.'
         );
-        expect(error.meta).toEqual({ status: 422 });
+      }
+    });
+
+    it('Converts intances of BaseApiError to InternalApiError', async () => {
+      when(factory.getOpenPullRequestsByRepo(owner, 'some-other-repo')).thenThrow(
+        new BaseApiError('Exception occurred', 422)
+      );
+      try {
+        await controller.getOpenPullRequestsByRepo(owner, 'some-other-repo');
+        expect('Call resolved successfully').toEqual('Call should error and throw');
+      } catch (error) {
+        expect(error).toBeInstanceOf(InternalApiError);
+        expect(error.message).toEqual('Error: Internal Server Error - Exception occurred');
       }
     });
 
