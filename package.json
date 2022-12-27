@@ -6,6 +6,12 @@
   "repository": "git@github.com:patrickmc21/github-node-api.git",
   "author": "Patrick McLaughlin <patrickmc21@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "npm": ">=8.19.3",
+    "node": ">=16.19.0",
+    "yarn": ">=1.22.19"
+  },
+  "engineStrict": true,
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "start": "ts-node-dev --respawn ./src/server.ts",
