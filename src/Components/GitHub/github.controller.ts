@@ -2,6 +2,7 @@ import Controller from '../../AbstractClasses/controller';
 import { BaseApiError, ExternalApiError, InternalApiError, NotFoundApiError } from '../../Types/ApiErrorTypes';
 import { GitHubPullRequestFormatted } from '../../Types/GitHubPullRequest.type';
 import GitHubFactory from './github.factory';
+import { logger } from '../../Services';
 
 /**
  * GitHubController
@@ -42,6 +43,7 @@ class GitHubController extends Controller {
       await this.factory.getUser(user);
       return true;
     } catch (error) {
+      logger.error(`Error: GitHubController.validateUser(): ${error.message}`, error);
       if (error instanceof BaseApiError && error.status === 404) {
         throw new NotFoundApiError({ ...error });
       }
@@ -65,6 +67,7 @@ class GitHubController extends Controller {
       await this.factory.getRepo(owner, repo);
       return true;
     } catch (error) {
+      logger.error(`Error: GitHubController.validateRepo(): ${error.message}`, error);
       if (error instanceof BaseApiError && error.status === 404) {
         throw new NotFoundApiError({ ...error });
       }
@@ -88,6 +91,7 @@ class GitHubController extends Controller {
       await Promise.all([this.validateUser(owner), this.validateRepo(owner, repo)]);
       return this.factory.getOpenPullRequestsByRepo(owner, repo);
     } catch (error) {
+      logger.error(`Error: GitHubController.getOpenPullRequestsByRepo(): ${error.message}`, error);
       if (error instanceof BaseApiError) {
         switch (true) {
           case error instanceof NotFoundApiError:

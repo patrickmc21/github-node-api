@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { logger } from '../Services/';
 
 export default abstract class HttpDal {
   protected baseUrl: string;
@@ -10,9 +11,15 @@ export default abstract class HttpDal {
   }
 
   protected get(url: string, headers?: any, useBaseUrl: boolean = true): Promise<any> {
-    return this.fetch(`${useBaseUrl ? this.baseUrl : ''}${url}`, {
+    const resourceUrl = `${useBaseUrl ? this.baseUrl : ''}${url}`;
+    logger.info(`Fetching external resource: GET ${resourceUrl}`);
+    return this.fetch(resourceUrl, {
       method: 'get',
       ...(headers && { headers }),
+    }).then((response) => {
+      if (!response.ok) logger.warn(`GET ${resourceUrl} - External resource sent invalid response: ${response.status}`);
+      else logger.info(`GET ${resourceUrl} - External resource responded successfully: ${response.status}`);
+      return response;
     });
   }
 }
